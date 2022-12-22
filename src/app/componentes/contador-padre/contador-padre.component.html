@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="container">
+    <h1>{{ title }}</h1>
+    <div>
+      <h3>{{ curso }}</h3>
+      <p>El número de estudiantes en el curso es: {{ num_estudiantes }}</p>
+    </div>
+  </div>
+
+  <h3>{{ contador }}</h3>
+  <button type="button" class="btn btn-primary" (click)="incrementar()">
+    Incrementar
+  </button>
+  <button type="button" class="btn btn-info" (click)="decrementar()">
+    Decrementar
+  </button>
+
+  <hr />
+
+  <app-contador-hijo
+    [contador]="contador"
+    (cambioContador)="contador = $event"
+  ></app-contador-hijo>
+
+  <hr>
+
+  <app-search-producto (search)="handleSearch($event)"></app-search-producto>
+  <!-- <div *ngIf="productos.length>0">
+    <ul class="list-group" *ngFor="let producto of productos; let indice=index">
+      <li class="list-group-item"> {{ producto.id }}</li>
+      <li class="list-group-item"> {{ producto.nombre }}</li>
+      <li class="list-group-item"> {{ producto.precio }}</li>
+      <li class="list-group-item"> {{ producto.createAt }}</li>
+      <li class="list-group-item"> {{ indice }}</li>
+    </ul>
+  </div> -->
+  <div *ngIf="productos.length==0">
+    <p><span>No hay productos disponibles</span></p>
+  </div>
+
+  <div *ngIf="productos.length > 0">
+    <form [formGroup]="formProducto" (ngSubmit)="generarFactura()">
+      <mat-form-field class="ancho">
+        <mat-label>Cliente</mat-label>
+        <input matInput autocomplete="off" formControlName="cliente"/>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Favorite food</mat-label>
+        <mat-select formControlName="precio">
+          <mat-option *ngFor="let producto of productos" [value]="producto.precio">
+            {{producto.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" [disabled]="formProducto.invalid">Guardar</button>
+    </form>
+  </div>
+</div>
